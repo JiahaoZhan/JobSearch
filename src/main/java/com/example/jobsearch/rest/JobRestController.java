@@ -19,15 +19,6 @@ public class JobRestController {
         this.jobService = jobService;
     }
 
-    @GetMapping("/jobs")
-    public List<Job> findAll() {
-        return jobService.findAll();
-    }
 
-    @PostMapping("/jobs")
-    public List<Job> search (@RequestBody SearchRequestBody body) {
-
-        return jobService.search(body);
-    }
 
 }

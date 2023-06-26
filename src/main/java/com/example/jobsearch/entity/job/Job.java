@@ -2,6 +2,8 @@ package com.example.jobsearch.entity.job;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="jobs")
 public class Job {
