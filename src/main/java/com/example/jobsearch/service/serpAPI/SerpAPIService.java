@@ -1,10 +1,10 @@
-package com.example.jobsearch.service;
+package com.example.jobsearch.service.serpAPI;
 
 import com.example.jobsearch.entity.job.Job;
 
 import java.util.List;
 
 public interface SerpAPIService {
-    public List<Job> search(SerpSearchParam params);
+    public String search(SerpSearchParam params);
 
 }

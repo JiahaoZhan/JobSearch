@@ -1,4 +1,4 @@
-package com.example.jobsearch.service;
+package com.example.jobsearch.service.serpAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ public class SerpSearchParam {
     private static String API_KEY = "0abe1818382b74202a3a11ed54d7021369be40f76854f61032623cf0193832c0";
 
     public SerpSearchParam() {
-        this.parameters = new HashMap<>();
+        this.parameters = new HashMap<String, String>();
         this.parameters.put("api_key", API_KEY);
     }
 
@@ -90,4 +90,5 @@ public class SerpSearchParam {
         this.parameters.put("output", type);
         return this;
     }
+
 }

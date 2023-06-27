@@ -1,4 +1,4 @@
-package com.example.jobsearch.service;
+package com.example.jobsearch.service.serpAPI;
 
 public class SearchRequestBody {
     public String getQuery() {

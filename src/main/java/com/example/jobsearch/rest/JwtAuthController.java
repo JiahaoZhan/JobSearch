@@ -15,7 +15,8 @@ import com.example.jobsearch.jwt.JwtResponse;
 import com.example.jobsearch.jwt.JwtRequest;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/user")
 public class JwtAuthController {
 
     @Autowired
@@ -27,12 +28,12 @@ public class JwtAuthController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @PostMapping("/user/new")
+    @PostMapping("/new")
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
-    @PostMapping("/user/auth")
+    @PostMapping("/auth")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService
