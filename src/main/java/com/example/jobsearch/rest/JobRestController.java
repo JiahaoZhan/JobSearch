@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -34,12 +36,17 @@ public class JobRestController {
         return ResponseEntity.ok(jobsJson);
     }
 
+    @GetMapping("/save/jobs")
+    public ResponseEntity<?> getSaved (@RequestAttribute("username") String email) throws Exception {
+        UserDAO userDAO = userService.findUserByEmail(email);
+        List<JobDAO> jobs = jobService.getSaved(userDAO);
+        return ResponseEntity.ok(jobs);
+    }
+
     @PostMapping("/save/jobs")
-    public ResponseEntity<?> mark (@RequestBody JobDTO job,
+    public ResponseEntity<?> save (@RequestBody JobDTO job,
                                    @RequestAttribute("username") String email) throws Exception {
         UserDAO userDAO = userService.findUserByEmail(email);
-        System.out.println(userDAO.getEmail());
-        System.out.println(job.toString());
         JobDAO savedJob = jobService.save(job, userDAO);
         return ResponseEntity.ok(savedJob);
     }

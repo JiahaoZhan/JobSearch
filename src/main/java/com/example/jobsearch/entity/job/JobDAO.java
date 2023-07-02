@@ -1,6 +1,7 @@
 package com.example.jobsearch.entity.job;
 
 import com.example.jobsearch.entity.user.UserDAO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -43,6 +44,10 @@ public class JobDAO {
 
     private String thumbnail;
 
+    @Column(name="job_id")
+    private String jobId;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user.id")
     private UserDAO user;
@@ -167,6 +172,14 @@ public class JobDAO {
         this.scheduleType = scheduleType;
     }
 
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
     public UserDAO getUser() {
         return user;
     }
@@ -174,5 +187,7 @@ public class JobDAO {
     public void setUser(UserDAO user) {
         this.user = user;
     }
+
+
 }
 

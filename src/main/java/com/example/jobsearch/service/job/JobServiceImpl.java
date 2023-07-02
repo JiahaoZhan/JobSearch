@@ -10,6 +10,8 @@ import com.example.jobsearch.service.serpAPI.SerpSearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JobServiceImpl implements JobService {
 
@@ -52,7 +54,14 @@ public class JobServiceImpl implements JobService {
         savedJob.setPostedAt(job.getPostedAt());
         savedJob.setScheduleType(job.getScheduleType());
         savedJob.setThumbnail(job.getThumbnail());
+        savedJob.setJobId(job.getJobId());
         savedJob.setUser(user);
         return jobRepo.save(savedJob);
+    }
+
+    @Override
+    public List<JobDAO> getSaved(UserDAO user) {
+        List<JobDAO> jobs = jobRepo.findByUser(user);
+        return jobs;
     }
 }

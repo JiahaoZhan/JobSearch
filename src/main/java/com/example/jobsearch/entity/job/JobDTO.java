@@ -35,6 +35,9 @@ public class JobDTO {
 
     private String thumbnail;
 
+    @JsonProperty("job_id")
+    private String jobId;
+
     public JobDTO() {
     }
 
@@ -146,23 +149,11 @@ public class JobDTO {
         this.thumbnail = thumbnail;
     }
 
-    @Override
-    public String toString() {
-        return "JobDTO{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", location='" + location + '\'' +
-                ", via='" + via + '\'' +
-                ", description='" + description + '\'' +
-                ", qualifications='" + qualifications + '\'' +
-                ", benefits='" + benefits + '\'' +
-                ", responsibilities='" + responsibilities + '\'' +
-                ", relatedLinks='" + relatedLink + '\'' +
-                ", linkTittle='" + linkTitle + '\'' +
-                ", postedAt='" + postedAt + '\'' +
-                ", scheduleType='" + scheduleType + '\'' +
-                ", thumbnail='" + thumbnail + '\'' +
-                '}';
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 }
