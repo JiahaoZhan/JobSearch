@@ -13,6 +13,8 @@ public interface JobService {
 
     public JobDAO save(JobDTO job, UserDAO user);
 
+    public String unsave(JobDTO job, UserDAO user);
+
     public List<JobDAO> getSaved(UserDAO user);
 
 }

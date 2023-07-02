@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface JobRepository extends JpaRepository<JobDAO, Long>, JpaSpecificationExecutor<JobDAO> {
     List<JobDAO> findByUser(final UserDAO user);
+    JobDAO findByJobId(final String id);
+    int deleteByJobIdAndUser(final String id, final UserDAO user);
 }

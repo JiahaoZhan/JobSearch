@@ -40,23 +40,38 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobDAO save(JobDTO job, UserDAO user) {
-        JobDAO savedJob = new JobDAO();
-        savedJob.setTitle(job.getTitle());
-        savedJob.setCompanyName(job.getCompanyName());
-        savedJob.setLocation(job.getLocation());
-        savedJob.setVia(job.getVia());
-        savedJob.setDescription(job.getDescription());
-        savedJob.setQualifications(job.getQualifications());
-        savedJob.setBenefits(job.getBenefits());
-        savedJob.setResponsibilities(job.getResponsibilities());
-        savedJob.setRelatedLink(job.getRelatedLink());
-        savedJob.setLinkTitle(job.getLinkTitle());
-        savedJob.setPostedAt(job.getPostedAt());
-        savedJob.setScheduleType(job.getScheduleType());
-        savedJob.setThumbnail(job.getThumbnail());
-        savedJob.setJobId(job.getJobId());
-        savedJob.setUser(user);
-        return jobRepo.save(savedJob);
+        JobDAO dbJob = jobRepo.findByJobId(job.getJobId());
+        if (dbJob == null) {
+            JobDAO savedJob = new JobDAO();
+            savedJob.setTitle(job.getTitle());
+            savedJob.setCompanyName(job.getCompanyName());
+            savedJob.setLocation(job.getLocation());
+            savedJob.setVia(job.getVia());
+            savedJob.setDescription(job.getDescription());
+            savedJob.setQualifications(job.getQualifications());
+            savedJob.setBenefits(job.getBenefits());
+            savedJob.setResponsibilities(job.getResponsibilities());
+            savedJob.setRelatedLink(job.getRelatedLink());
+            savedJob.setLinkTitle(job.getLinkTitle());
+            savedJob.setPostedAt(job.getPostedAt());
+            savedJob.setScheduleType(job.getScheduleType());
+            savedJob.setThumbnail(job.getThumbnail());
+            savedJob.setJobId(job.getJobId());
+            savedJob.setUser(user);
+            return jobRepo.save(savedJob);
+        }
+        return null;
+    }
+
+    @Override
+    public String unsave(JobDTO job, UserDAO user) {
+        JobDAO dbJob = jobRepo.findByJobId(job.getJobId());
+        if (dbJob != null) {
+            int isDeleted = jobRepo.deleteByJobIdAndUser(job.getJobId(), user);
+            if (isDeleted > 0) return dbJob.getJobId();
+            else return null;
+        }
+        return null;
     }
 
     @Override

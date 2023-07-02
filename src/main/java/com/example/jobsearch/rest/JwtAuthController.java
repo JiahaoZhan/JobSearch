@@ -1,5 +1,6 @@
 package com.example.jobsearch.rest;
 
+import com.example.jobsearch.entity.user.UserDAO;
 import com.example.jobsearch.entity.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,8 @@ public class JwtAuthController {
 
     @PostMapping("/new")
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
+        UserDAO dbUser = userDetailsService.save(user);
+        if (dbUser == null) return ResponseEntity.ok("The email has been taken");
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 

@@ -6,6 +6,7 @@ import com.example.jobsearch.entity.user.UserDAO;
 import com.example.jobsearch.service.job.JobServiceImpl;
 import com.example.jobsearch.service.serpAPI.SearchRequestBody;
 import com.example.jobsearch.service.user.UserServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,16 @@ public class JobRestController {
     public ResponseEntity<?> save (@RequestBody JobDTO job,
                                    @RequestAttribute("username") String email) throws Exception {
         UserDAO userDAO = userService.findUserByEmail(email);
-        JobDAO savedJob = jobService.save(job, userDAO);
-        return ResponseEntity.ok(savedJob);
+        JobDAO jobDAO = jobService.save(job, userDAO);
+        return ResponseEntity.ok(jobDAO);
+    }
+
+    @Transactional
+    @PostMapping("/unsave/jobs")
+    public ResponseEntity<?> unsave (@RequestBody JobDTO job,
+                                   @RequestAttribute("username") String email) throws Exception {
+        UserDAO userDAO = userService.findUserByEmail(email);
+        String unsavedJobId = jobService.unsave(job, userDAO);
+        return ResponseEntity.ok(unsavedJobId);
     }
 }
