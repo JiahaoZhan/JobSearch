@@ -1,6 +1,8 @@
 package com.example.jobsearch.service.serpAPI;
 
-public class SearchRequestBody {
+import java.io.Serializable;
+
+public class SearchRequestBody implements Serializable {
     public String getQuery() {
         return query;
     }
@@ -9,5 +11,9 @@ public class SearchRequestBody {
         this.query = query;
     }
 
+    public SearchRequestBody() {
+    }
+
     private String query;
+
 }

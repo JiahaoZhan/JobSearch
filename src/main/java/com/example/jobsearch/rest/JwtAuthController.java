@@ -14,19 +14,23 @@ import com.example.jobsearch.jwt.JwtUserDetailsService;
 import com.example.jobsearch.jwt.JwtResponse;
 import com.example.jobsearch.jwt.JwtRequest;
 
+@CrossOrigin
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/user")
 public class JwtAuthController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
     private JwtUserDetailsService userDetailsService;
+
+    @Autowired
+    public JwtAuthController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, JwtUserDetailsService userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping("/new")
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
@@ -35,12 +39,11 @@ public class JwtAuthController {
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+        System.out.println(authenticationRequest.getEmail());
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
-
+                .loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails);
-
         return ResponseEntity.ok(new JwtResponse(token));
     }
 

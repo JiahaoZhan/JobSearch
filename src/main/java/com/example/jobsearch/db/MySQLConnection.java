@@ -1,7 +1,6 @@
 package com.example.jobsearch.db;
 
 
-import com.example.jobsearch.entity.job.Job;
 
 import java.sql.*;
 import java.util.Collections;
