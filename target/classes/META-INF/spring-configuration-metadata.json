@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "common.redis.pool-config",
+      "type": "com.example.jobsearch.service.redis.ConnectionPoolProperties",
+      "sourceType": "com.example.jobsearch.service.redis.ConnectionPoolProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "common.redis.pool-config.max-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.jobsearch.service.redis.ConnectionPoolProperties"
+    },
+    {
+      "name": "common.redis.pool-config.max-total",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.jobsearch.service.redis.ConnectionPoolProperties"
+    },
+    {
+      "name": "common.redis.pool-config.min-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.example.jobsearch.service.redis.ConnectionPoolProperties"
+    }
+  ],
+  "hints": []
+}

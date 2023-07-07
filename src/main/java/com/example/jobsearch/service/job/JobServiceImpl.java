@@ -4,6 +4,8 @@ import com.example.jobsearch.entity.job.JobDAO;
 import com.example.jobsearch.entity.job.JobDTO;
 import com.example.jobsearch.entity.user.UserDAO;
 import com.example.jobsearch.repository.JobRepository;
+import com.example.jobsearch.service.redis.RedisService;
+import com.example.jobsearch.service.redis.RedisServiceImpl;
 import com.example.jobsearch.service.serpAPI.SearchRequestBody;
 import com.example.jobsearch.service.serpAPI.SerpAPIService;
 import com.example.jobsearch.service.serpAPI.SerpSearchParam;
@@ -17,24 +19,33 @@ public class JobServiceImpl implements JobService {
 
     private SerpAPIService serpAPIService;
 
+    private RedisService redisService;
+
     private JobRepository jobRepo;
 
+    private static String SEARCH_KEY_TEMPLATE = "&q=%s&gl=%s&start=%s";
 
     @Autowired
-    public JobServiceImpl(SerpAPIService serpAPIService, JobRepository jobRepo) {
+    public JobServiceImpl(SerpAPIService serpAPIService, RedisService redisService, JobRepository jobRepo) {
         this.serpAPIService = serpAPIService;
+        this.redisService = redisService;
         this.jobRepo = jobRepo;
     }
 
     @Override
     public String search(SearchRequestBody body) {
+        // set to Canada temporarily as search by country is not implemented yet.
+        // pagination set 0. It means return jobs on the first page of Google job.
+        String jobsJson = redisService.getValue(body.getQuery(), "ca", "0");
+        if (jobsJson != null) return jobsJson;
         SerpSearchParam params = new SerpSearchParam();
         params.addEngine("google_jobs")
-                .addQuery(body.getQuery())
-                .addCountryCode("ca")
-                .addGoogleDomain("google.ca")
-                .addLanguageCode("en");
-        String jobsJson = serpAPIService.search(params);
+                    .addQuery(body.getQuery())
+                    .addCountryCode("ca")
+                    .addGoogleDomain("google.ca")
+                    .addLanguageCode("en");
+        jobsJson = serpAPIService.search(params);
+        redisService.setValue(body.getQuery(), "ca", "0", jobsJson);
         return jobsJson;
     }
 
